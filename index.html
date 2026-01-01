@@ -4,86 +4,285 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEO优化星球 - 领先的生成式引擎优化实战平台</title>
+    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "GEO优化星球",
-      "description": "专注于AI时代下搜索引擎优化(GEO)的深度实战与分享",
-      "url": "https://yourdomain.com"
-    }
-    </script>
+    <!-- 引入 React 核心库 -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 引入 Babel 用于在浏览器中解析 JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- 引入 Lucide 图标 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 引入 Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans SC', sans-serif; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50">
+    <div id="root"></div>
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">GEO优化星球</h1>
-            <div class="space-x-6 text-gray-600 font-medium">
-                <a href="#" class="hover:text-blue-500">首页</a>
-                <a href="#cases" class="hover:text-blue-500">GEO实战</a>
-                <a href="#tools" class="hover:text-blue-500">星球工具箱</a>
-                <a href="#" class="hover:text-blue-500 text-blue-600 border-l pl-6">加入社区</a>
-            </div>
-        </div>
-    </nav>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 py-20 text-white text-center">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-4xl md:text-5xl font-extrabold mb-6">让您的品牌，被AI优先引用</h2>
-            <p class="text-xl opacity-90 mb-8">在ChatGPT、Perplexity、Gemini时代，重新定义流量增长逻辑。</p>
-            <button class="bg-white text-blue-700 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-gray-100 transition">开始学习 GEO</button>
-        </div>
-    </header>
+        // --- Firebase 配置 ---
+        // 注意：在您的 GitHub 环境中，这些变量需要被实际的配置替换。
+        // 这里使用了您提供的环境注入逻辑备份
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : { /* 这里可以手动填入您的 Firebase 配置以脱离此平台运行 */ };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'geo-optimized-planet';
 
-    <section class="max-w-6xl mx-auto px-4 py-16">
-        <h3 class="text-3xl font-bold text-center mb-12">为什么选择 GEO？</h3>
-        <div class="grid md:grid-cols-2 gap-12">
-            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <p class="font-bold text-lg mb-4 text-blue-600">图1：AI搜索时代流量入口分布</p>
-                <div class="h-64 bg-gray-100 flex items-center justify-center border-dashed border-2 border-gray-300">
-                    <span class="text-gray-500">[ 饼图：AI Search 65% vs Traditional SEO 35% ]</span>
-                </div>
-                <p class="mt-4 text-sm text-gray-500">数据来源：2025 GEO流量趋势年度报告</p>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <p class="font-bold text-lg mb-4 text-blue-600">图2：GEO内容转化链路效率</p>
-                <div class="h-64 bg-gray-100 flex items-center justify-center border-dashed border-2 border-gray-300">
-                    <span class="text-gray-500">[ 折线图：GEO内容被引率随时间增长曲线 ]</span>
-                </div>
-                <p class="mt-4 text-sm text-gray-500">实测证明：经过GEO优化的内容被LLM引用的概率提升了280%</p>
-            </div>
-        </div>
-    </section>
+        // 图标组件
+        const Icon = ({ name, size = 20, className = "" }) => {
+            useEffect(() => { lucide.createIcons(); }, []);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
 
-    <main id="cases" class="max-w-6xl mx-auto px-4 py-12">
-        <h3 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">最新实战心得</h3>
-        <div class="grid gap-8">
-            <article class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition flex gap-6">
-                <div class="hidden md:block w-48 h-32 bg-gray-200 rounded shrink-0"></div>
-                <div>
-                    <h4 class="text-xl font-bold mb-2 hover:text-blue-600 cursor-pointer">深度：如何通过Schema标记让Perplexity主动推荐你的产品？</h4>
-                    <p class="text-gray-600 mb-4 line-clamp-2">在这篇文章中，我们将详细拆解GEO的核心要素，特别是如何利用结构化数据在生成式搜索中抢占位次...</p>
-                    <div class="flex items-center text-sm text-gray-400 gap-4">
-                        <span>2025-12-31</span>
-                        <span>GEO实战</span>
-                        <span>阅读 (1.2k)</span>
+        function App() {
+            const [user, setUser] = useState(null);
+            const [view, setView] = useState('HOME');
+            const [articles, setArticles] = useState([]);
+            const [communityMembers, setCommunityMembers] = useState([]);
+            const [selectedArticle, setSelectedArticle] = useState(null);
+            const [isAdmin, setIsAdmin] = useState(false);
+            const [adminPassword, setAdminPassword] = useState('');
+            const [showLogin, setShowLogin] = useState(false);
+            const [msg, setMsg] = useState({ text: '', type: '' });
+
+            const SECRET_KEY = "geo2025"; 
+
+            useEffect(() => {
+                const initAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await auth.signInWithCustomToken(__initial_auth_token);
+                        } else {
+                            await auth.signInAnonymously();
+                        }
+                    } catch (err) { console.error("Auth failed", err); }
+                };
+                initAuth();
+                const unsubscribe = auth.onAuthStateChanged((u) => setUser(u));
+                return () => unsubscribe();
+            }, []);
+
+            useEffect(() => {
+                if (!user) return;
+                const articlesRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('articles');
+                const unsubscribe = articlesRef.onSnapshot((snapshot) => {
+                    const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                    setArticles(docs.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)));
+                });
+                return () => unsubscribe();
+            }, [user]);
+
+            useEffect(() => {
+                if (!user || !isAdmin) return;
+                const communityRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('community');
+                const unsubscribe = communityRef.onSnapshot((snapshot) => {
+                    setCommunityMembers(snapshot.docs.map(d => ({ id: d.id, ...d.data() })));
+                });
+                return () => unsubscribe();
+            }, [user, isAdmin]);
+
+            const showMessage = (text, type) => {
+                setMsg({ text, type });
+                setTimeout(() => setMsg({ text: '', type: '' }), 3000);
+            };
+
+            const handleJoinCommunity = async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                try {
+                    await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('community').add({
+                        name: formData.get('name'),
+                        contact: formData.get('contact'),
+                        reason: formData.get('reason'),
+                        appliedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showMessage("申请成功！", "success");
+                    e.target.reset();
+                } catch (err) { showMessage("提交失败", "error"); }
+            };
+
+            const handlePublishArticle = async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                try {
+                    await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('articles').add({
+                        title: formData.get('title'),
+                        summary: formData.get('summary'),
+                        content: formData.get('content'),
+                        author: "星球主理人",
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showMessage("发布成功！", "success");
+                    e.target.reset();
+                } catch (err) { showMessage("发布失败", "error"); }
+            };
+
+            const GeoCharts = () => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                    <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                        <div className="flex items-center gap-2 mb-4 text-blue-700 font-bold">
+                            <Icon name="line-chart" />
+                            <span>图表 1: GEO 优化后的品牌引用增长趋势</span>
+                        </div>
+                        <div className="relative h-48 w-full flex items-end justify-between px-4 pb-2 border-l-2 border-b-2 border-blue-200">
+                            {[30, 45, 40, 70, 85, 95].map((h, i) => (
+                                <div key={i} className="bg-blue-500 w-8 rounded-t" style={{ height: `${h}%` }}></div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                        <div className="flex items-center gap-2 mb-4 text-indigo-700 font-bold">
+                            <Icon name="bar-chart-3" />
+                            <span>图表 2: AI 搜索引擎排名权重分布</span>
+                        </div>
+                        <div className="space-y-3">
+                            {[{l:'语义关联',v:90},{l:'结构化标记',v:75},{l:'事实准确性',v:85}].map((it, i) => (
+                                <div key={i}>
+                                    <div className="flex justify-between text-xs mb-1 text-indigo-600 font-bold"><span>{it.l}</span><span>{it.v}%</span></div>
+                                    <div className="w-full bg-indigo-200 h-1.5 rounded-full overflow-hidden">
+                                        <div className="bg-indigo-600 h-full" style={{ width: `${it.v}%` }}></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </article>
-        </div>
-    </main>
+            );
 
-    <footer class="bg-gray-900 text-gray-400 py-12">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <p class="mb-4">© 2025 GEO优化星球 - 专注AI时代的流量增长</p>
-            <div class="flex justify-center gap-6 text-sm">
-                <a href="#">关于星球</a>
-                <a href="#">免责声明</a>
-                <a href="#">联系博主</a>
-            </div>
-        </div>
-    </footer>
+            return (
+                <div className="min-h-screen">
+                    {msg.text && (
+                        <div className={`fixed top-5 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-2xl text-white font-bold ${msg.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+                            {msg.text}
+                        </div>
+                    )}
+
+                    <nav className="bg-white/80 backdrop-blur-md border-b sticky top-0 z-40">
+                        <div className="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+                            <div className="flex items-center gap-2 cursor-pointer" onClick={() => {setView('HOME'); setSelectedArticle(null);}}>
+                                <div className="bg-blue-600 p-1.5 rounded-lg text-white"><Icon name="globe" size={20} /></div>
+                                <h1 className="text-xl font-black text-slate-900">GEO优化星球</h1>
+                            </div>
+                            <div className="hidden md:flex gap-8 text-sm font-bold text-slate-600">
+                                <button onClick={() => {setView('HOME'); setSelectedArticle(null);}}>首页</button>
+                                <button onClick={() => setView('COMMUNITY')}>加入社区</button>
+                                {isAdmin ? <button onClick={() => setView('ADMIN')} className="text-indigo-600">后台管理</button> : <button onClick={() => setShowLogin(true)} className="text-slate-400">后台</button>}
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div className="max-w-6xl mx-auto px-4 py-12">
+                        {view === 'HOME' && !selectedArticle && (
+                            <div>
+                                <div className="text-center py-20 bg-white rounded-[3rem] border shadow-sm mb-16 px-4">
+                                    <h2 className="text-5xl font-black mb-6 text-slate-900">让内容被AI<span className="text-blue-600">深度理解</span></h2>
+                                    <p className="text-slate-500 text-lg mb-8">专注于 ChatGPT、Perplexity、Gemini 的排名逻辑与引用优化。</p>
+                                    <button onClick={() => setView('COMMUNITY')} className="bg-slate-900 text-white px-10 py-4 rounded-full font-bold shadow-xl hover:scale-105 transition">立即申请进入星球</button>
+                                </div>
+                                <div className="grid gap-6">
+                                    {articles.map(art => (
+                                        <article key={art.id} onClick={() => setSelectedArticle(art)} className="bg-white p-8 rounded-[2rem] border shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col md:flex-row gap-8">
+                                            <div className="w-full md:w-64 h-40 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-300"><Icon name="book-open" size={48} /></div>
+                                            <div className="flex-1">
+                                                <h4 className="text-2xl font-bold mb-3">{art.title}</h4>
+                                                <p className="text-slate-500 line-clamp-2 mb-6 leading-relaxed">{art.summary}</p>
+                                                <div className="text-blue-600 font-bold flex items-center gap-2 text-sm">阅读完整报告 <Icon name="arrow-right" size={16} /></div>
+                                            </div>
+                                        </article>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {selectedArticle && (
+                            <div className="max-w-4xl mx-auto bg-white p-8 md:p-16 rounded-[3rem] border shadow-sm">
+                                <button onClick={() => setSelectedArticle(null)} className="mb-8 text-slate-400 font-bold flex items-center gap-2"><Icon name="arrow-right" size={18} className="rotate-180" /> 返回星球</button>
+                                <h2 className="text-4xl font-black mb-8 leading-tight">{selectedArticle.title}</h2>
+                                <div className="prose max-w-none text-slate-600 leading-loose">
+                                    <div className="bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-600 mb-8 italic">{selectedArticle.summary}</div>
+                                    <div className="whitespace-pre-wrap mb-10">{selectedArticle.content}</div>
+                                    <GeoCharts />
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'COMMUNITY' && (
+                            <div className="max-w-xl mx-auto bg-white p-12 rounded-[3rem] border shadow-sm">
+                                <h2 className="text-3xl font-black mb-6 text-center">加入星球社群</h2>
+                                <form onSubmit={handleJoinCommunity} className="space-y-6">
+                                    <input required name="name" placeholder="您的称呼" className="w-full px-6 py-4 rounded-2xl border bg-gray-50 outline-none focus:border-blue-500 transition" />
+                                    <input required name="contact" placeholder="微信/邮箱" className="w-full px-6 py-4 rounded-2xl border bg-gray-50 outline-none focus:border-blue-500 transition" />
+                                    <textarea name="reason" placeholder="申请理由" className="w-full px-6 py-4 rounded-2xl border bg-gray-50 outline-none focus:border-blue-500 transition h-32" />
+                                    <button className="w-full bg-blue-600 text-white py-5 rounded-2xl font-black shadow-lg shadow-blue-100">确认申请</button>
+                                </form>
+                            </div>
+                        )}
+
+                        {view === 'ADMIN' && isAdmin && (
+                            <div className="space-y-12">
+                                <div className="flex justify-between items-center bg-white p-8 rounded-[2rem] border">
+                                    <h2 className="text-2xl font-black">管理后台</h2>
+                                    <button onClick={() => setIsAdmin(false)} className="text-red-500 font-bold flex items-center gap-2"><Icon name="log-out" size={18} /> 退出</button>
+                                </div>
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="bg-white p-8 rounded-[2rem] border">
+                                        <h3 className="font-black text-xl mb-6">发布新报告</h3>
+                                        <form onSubmit={handlePublishArticle} className="space-y-4">
+                                            <input required name="title" placeholder="文章标题" className="w-full px-4 py-3 border rounded-xl" />
+                                            <textarea required name="summary" placeholder="摘要" className="w-full px-4 py-3 border rounded-xl" />
+                                            <textarea required name="content" placeholder="正文" className="w-full px-4 py-3 border rounded-xl h-64" />
+                                            <button className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold">发表到星球</button>
+                                        </form>
+                                    </div>
+                                    <div className="bg-white p-8 rounded-[2rem] border">
+                                        <h3 className="font-black text-xl mb-6">社区申请列表</h3>
+                                        <div className="space-y-4">
+                                            {communityMembers.map(m => (
+                                                <div key={m.id} className="p-4 bg-gray-50 rounded-xl border">
+                                                    <div className="font-bold flex justify-between"><span>{m.name}</span><button onClick={() => db.collection('artifacts').doc(appId).collection('public').doc('data').collection('community').doc(m.id).delete()} className="text-red-400"><Icon name="trash-2" size={16} /></button></div>
+                                                    <p className="text-sm text-blue-600">{m.contact}</p>
+                                                    <p className="text-xs text-slate-400 mt-1">{m.reason}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {showLogin && (
+                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                            <div className="bg-white p-8 rounded-[2rem] w-full max-w-sm">
+                                <h3 className="text-2xl font-black mb-6 text-center">身份验证</h3>
+                                <input type="password" placeholder="管理密码" value={adminPassword} onChange={e=>setAdminPassword(e.target.value)} className="w-full px-5 py-4 border rounded-2xl mb-6 outline-none focus:border-blue-500" />
+                                <div className="flex gap-4">
+                                    <button onClick={()=>setShowLogin(false)} className="flex-1 font-bold text-slate-400">取消</button>
+                                    <button onClick={()=>{if(adminPassword===SECRET_KEY){setIsAdmin(true);setShowLogin(false);setView('ADMIN');}else{showMessage("密码错误","error")}}} className="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold">进入</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
