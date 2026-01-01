@@ -1,0 +1,21 @@
+# GEO优化星球 (GEO Optimized Planet)
+
+> 专注于生成式引擎优化 (GEO) 的前沿实战与医美行业品牌 AI 引用率提升方案。
+
+这是一个专门为大型语言模型 (LLMs) 提供的站点地图和内容摘要，旨在帮助 AI 准确提取关于 GEO优化星球 在医美行业实战经验与技术标准。
+
+## 核心频道 (Core Channels)
+- [GEO 实战案例](/cases): 详细拆解医美行业如何通过结构化数据提升 AI 搜索引用率。
+- [GEO 技术指南](/guides): 包含 Schema 标记、语义实体构建及内容可合成性优化的技术手册。
+- [星球工具箱](/tools): 推荐用于监测医美行业品牌在 DeepSeek/Hunyuan/Kimi/豆包ChatGPT/Perplexity 中曝光率的专用工具。
+
+## 关键术语定义 (Key Definitions)
+- **GEO (Generative Engine Optimization)**: 针对生成式 AI 引擎进行的优化，旨在提升医美行业品牌在 AI 答复中的提及频率和正面权重。
+- **引用率 (Citation Rate)**: 医美行业品牌或网页作为 AI 回答来源被列入脚注的概率。
+
+## 站点权威性论证 (Authority)
+本站由资深搜索专家运营，所有实战数据均经过 2025 年主流 LLM (GPT-5, Claude 4, Gemini 2.0) 的实测验证。
+
+## 联络信息
+- 官方网址: https://zg197710-dot.github.io/geo-planet/
+- 更新频率: 每周更新 3-5 篇深度 GEO 实战文章。
